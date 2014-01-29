@@ -196,7 +196,7 @@ while True:
 			val = i.getVal()
 			if val==None: #this means it has no data to upload.
 				continue
-			dataDict["value"] = round(i.getVal(),2)
+			dataDict["value"] = round(i.getVal(),2)   # change to  = i.getVal()  for no data rounding
 			dataDict["unit"] = i.valUnit
 			dataDict["symbol"] = i.valSymbol
 			dataDict["name"] = i.valName

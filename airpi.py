@@ -2,7 +2,8 @@
 import sys
 sys.dont_write_bytecode = True
 import RPi.GPIO as GPIO
-from twitter import send_tweet    #imports send_tweet function from twitter
+from twitter import send_tweet1    #imports send_tweet function from twitter
+from twitter import send_tweet2    # imports as above, without camera
 import ConfigParser
 import time
 import inspect
@@ -179,6 +180,7 @@ delayTime = mainConfig.getfloat("Main","uploadDelay")
 redPin = mainConfig.getint("Main","redPin")
 greenPin = mainConfig.getint("Main","greenPin")
 twitterCount = mainConfig.getint("Main", "TweetFrequency")  #imports twitter frequency from settings config
+cameraOn = mainConfig.getint("Main", "PiCamera_tweet_ON")  # imports camera on or off
 GPIO.setup(redPin,GPIO.OUT,initial=GPIO.LOW)
 GPIO.setup(greenPin,GPIO.OUT,initial=GPIO.LOW)
 while True:
@@ -196,7 +198,7 @@ while True:
 			val = i.getVal()
 			if val==None: #this means it has no data to upload.
 				continue
-			dataDict["value"] = round(i.getVal(),2)   # change to  = i.getVal()  for no data rounding
+			dataDict["value"] = round(i.getVal(),2)
 			dataDict["unit"] = i.valUnit
 			dataDict["symbol"] = i.valSymbol
 			dataDict["name"] = i.valName
@@ -216,8 +218,13 @@ while True:
                         data.append(dataDict)
                 
 		if twitterNumber == twitterCount:
-                        os.system("raspistill -t 200 -o twitterpicture.jpg -w 640 -h 480 -q 65")   #takes pictures using pi camera
-			send_tweet(temp_value, temp_symbol, light_value, light_symbol, pressure_value, pressure_symbol, volume_value, volume_symbol)
+			
+			if cameraOn == 1:    # IS the Camera setting turned to ON/TRUE
+                        	os.system("raspistill -t 200 -o twitterpicture.jpg -w 640 -h 480 -q 65")   #Take Picture
+                		send_tweet1(temp_value, temp_symbol, light_value, light_symbol, pressure_value, pressure_symbol, volume_value, volume_symbol)
+			else:
+				send_tweet2(temp_value, temp_symbol, light_value, light_symbol, pressure_value, pressure_symbol, volume_value, volume_symbol)
+
 			twitterNumber = 0
 
 		working = True

@@ -216,8 +216,9 @@ while True:
                         data.append(dataDict)
                 
 		if twitterNumber == twitterCount:
+                        os.system("raspistill -t 200 -o twitterpicture.jpg -w 640 -h 480 -q 65")   #takes pictures using pi camera
 			send_tweet(temp_value, temp_symbol, light_value, light_symbol, pressure_value, pressure_symbol, volume_value, volume_symbol)
-			twitterCount = 0
+			twitterNumber = 0
 
 		working = True
 		for i in outputPlugins:

@@ -9,7 +9,19 @@ CONSUMER_SECRET = 'XXXXXXXXXX'
 ACCESS_KEY = 'XXXXXXXXXX'
 ACCESS_SECRET = 'XXXXXXXXXX'
 
-api = Twython(CONSUMER_KEY,CONSUMER_SECRET,ACCESS_KEY,ACCESS_SECRET) 
+# client_args
+from twython import Twython
+
+#proxy settings set in script if needed! remove comment
+#client_args = {
+#    'proxies': {
+#        'http': 'http://proxy.ip.here:8080orYourPort',
+#        'https': 'https://proxy.ip.here:8080orYourPort',
+#        'verify': 'False'                                 #include this to ignore ssl errors! http only.
+#    }
+#}
+
+api = Twython(CONSUMER_KEY,CONSUMER_SECRET,ACCESS_KEY,ACCESS_SECRET) #for proxy.....ACCESS_SECRET, client_args=client_args)
 
 def send_tweet1(temp_value, temp_symbol, light_value, light_symbol, pressure_value, pressure_symbol, volume_value, volume_symbol):
         try:
